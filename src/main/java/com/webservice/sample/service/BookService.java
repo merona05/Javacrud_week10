@@ -10,6 +10,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
+//Q7. save()를 호출하면 새로운 데이터 등록과 기존 데이터 수정이 어떻게 처리되는가?
+// 데이터가 없다면 새로운 데이터가 등록되고, 기존 데이터가 있다면 이번에 save한 내용으로 변경되어 저장된다.
+//Q8. @Transactional과 Dirty Checking은 어떤 관계가 있는가?
+// @Transactional이 실행 될 때 마지막에 Dirty Checking을 함으로써 따로 save할 필요 없이 JPA가 알아서 저장해 준다.
+
 @Service
 public class BookService {
     private final BookRepository repository;
