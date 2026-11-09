@@ -1,12 +1,12 @@
 package com.webservice.sample.entity;
 
 import com.webservice.sample.dto.BookRequest;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import java.time.LocalDateTime;
+import jakarta.persistence.EntityListeners;
 
 
 // @Entity, @Id, @GeneratedValue는 각각 어떤 역할을 하는가?
@@ -22,6 +22,7 @@ import jakarta.persistence.Table;
 // @Table을 사용해서 매핑할 테이블 이름을 직접 지정할 수 있고, @Column을 사용하면 각 필드와 테이블의 컬럼을 연결할 수 있다.
 @Entity
 @Table(name = "books")
+@EntityListeners(AuditingEntityListener.class)
 public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,6 +39,15 @@ public class Book {
 
     @Column(nullable = false, length = 50)
     private String category;
+
+    @CreatedDate
+    @Column(updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
+
+
 
     protected Book() { } // JPA uses the no-args constructor.
 
@@ -60,4 +70,6 @@ public class Book {
     public String getAuthor() { return author; }
     public Integer getPrice() { return price; }
     public String getCategory() { return category; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public LocalDateTime getUpdatedAt() { return updatedAt; }
 }
