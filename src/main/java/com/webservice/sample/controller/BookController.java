@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.net.URI;
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/api/books")
@@ -35,6 +36,23 @@ public class BookController {
 
     @GetMapping("/{id}")
     public BookResponse findById(@PathVariable Long id) { return service.findById(id); }
+
+    @GetMapping("/search/title")
+    public List<BookResponse> searchByTitle(@RequestParam String title) {
+        return service.searchByTitle(title);
+    }
+
+    @GetMapping("/search/category")
+    public List<BookResponse> searchByCategoryAndMinPrice(
+            @RequestParam String category,
+            @RequestParam Integer price) {
+        return service.searchByCategoryAndMinPrice(category, price);
+    }
+
+    @GetMapping("/sort/price")
+    public List<BookResponse> findAllOrderByPriceAsc() {
+        return service.findAllOrderByPriceAsc();
+    }
 
     @PutMapping("/{id}")
     public BookResponse update(@PathVariable Long id, @Valid @RequestBody BookRequest request) {

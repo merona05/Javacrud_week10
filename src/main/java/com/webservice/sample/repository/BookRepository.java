@@ -2,6 +2,7 @@ package com.webservice.sample.repository;
 
 import com.webservice.sample.entity.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.List;
 
 //Q3. JpaRepository<Entity, Long>에서 두 타입은 각각 무엇을 의미하는가?
 
@@ -21,4 +22,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
     // Week 09: All basic CRUD methods are inherited from JpaRepository.
+
+    List<Book> findByTitle(String title);
+
+    List<Book> findByCategoryAndPriceGreaterThanEqual(
+            String category, Integer price);
+
+    List<Book> findAllByOrderByPriceAsc();
 }

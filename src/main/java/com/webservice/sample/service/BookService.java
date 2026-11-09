@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import java.util.List;
 
 //Q7. save()를 호출하면 새로운 데이터 등록과 기존 데이터 수정이 어떻게 처리되는가?
@@ -55,4 +56,28 @@ public class BookService {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Book not found: " + id));
     }
+
+    public List<BookResponse> searchByTitle(String title) {
+        return repository.findByTitle(title)
+                .stream()
+                .map(BookResponse::from)
+                .toList();
+    }
+
+    public List<BookResponse> searchByCategoryAndMinPrice(
+            String category, Integer price){
+        return repository.findByCategoryAndPriceGreaterThanEqual(category, price)
+                .stream()
+                .map(BookResponse::from)
+                .toList();
+    }
+
+    public List<BookResponse> findAllOrderByPriceAsc() {
+        return repository.findAllByOrderByPriceAsc()
+                .stream()
+                .map(BookResponse::from)
+                .toList();
+    }
+
+
 }
